@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+{% load static %}
+{% load cart_template_tag %}
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Product</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <!-- Favicons -->
+    <link href="{% static 'img/favicon.png' %}" rel="icon">
+    <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div
+            class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-end">
+
+            <a href="{% url 'index' %}" class="logo d-flex align-items-center me-auto">
+
+                <h1 class="sitename">TakeNOut</h1>
+            </a>
+
+            <nav id="navmenu" class="navmenu">
+                <ul>
+                    {% if user.is_authenticated %}
+                    <li><a href="{%url 'index'%}" class="active">Home</a></li>
+                    <li><a href="{% url 'orderlist' %}" class="active">Cart&nbsp;&nbsp;
+                            <div style="color: red;">
+                                {{request.user | cart_item_count}}
+                            </div>
+
+                        </a></li>
+                    {% if user.is_superuser %}
+                    <li><a href="{%url 'add_product'%}" class="active">Add Product</a></li>
+                    {% endif %}
+                    <li><a href="#hero" class="active">Welcome {{user.username}}</a></li>
+                    <a class="btn-getstarted" href="{% url 'user_logout' %}">Logout</a>
+
+
+
+                    {% else %}
+                    <a class="btn-getstarted" href="{% url 'user_login' %}">Login</a>
+                    <a class="btn-getstarted" href="{% url 'user_register' %}">Register</a>
+                    {% endif %}
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+
+            </nav>
+
+
+
+        </div>
+    </header>
+    <main style="margin-top: 120px;">
+        <div class="container mt-5">
+            <div class="card mb-3 shadow-sm">
+                <div class="row g-0">
+                    <div class="col-md-6">
+                        <div class="preview-pic tab-content p-3">
+                            <div class="tab-pane active">
+                                <img src="{{product.img.url}}" alt="" class="img-fluid rounded">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <h3 class="product-title mb-3">
+                                {{product.name}}
+                            </h3>
+                            <p class="product-description text-muted">
+                                {{product.desc}}
+                            </p>
+                            <h4 class="price my-4">
+                                Current Price: <span class="text-success">SEK {{product.price}}</span>
+                            </h4>
+                            <div class="action mt-4">
+                                {% if user.is_authenticated %}
+                                <a href="{% url 'add_to_cart' product.pk %}"
+                                    class="add-to-cart btn btn-primary w-100">Add to Cart</a>
+                                {% else %}
+                                <a href="{% url 'user_login' %}" class="add-to-cart btn btn-primary w-100">Add to
+                                    Cart</a>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+
+</html>

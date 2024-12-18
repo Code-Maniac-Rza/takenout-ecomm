@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+{%load static%}
+{% load cart_template_tag %}
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>TakeNOut</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="{% static 'img/favicon.png' %}" rel="icon">
+  <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="{% static 'css/main.css' %}" rel="stylesheet">
+
+</head>
+
+<style>
+  .card-img-top {
+    width: 100%;
+    /* Bootstrap ensures it fits the card width */
+    height: 200px;
+    /* Set a fixed height */
+    object-fit: cover;
+  }
+
+  .pagination {
+    margin-top: 2rem;
+    justify-content: center;
+  }
+
+  .pagination .page-item.active .page-link {
+    background-color: #212529;
+    border-color: #212529;
+  }
+
+  .pagination .page-link {
+    color: #212529;
+  }
+
+  .pagination .page-link:hover {
+    color: #fff;
+    background-color: #212529;
+    border-color: #212529;
+  }
+</style>
+
+<body class="index-page">
+
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div
+      class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-end">
+
+      <a href="{%url 'index'%}" class="logo d-flex align-items-center me-auto">
+
+        <h1 class="sitename">TakeNOut</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          {% if user.is_authenticated %}
+          <li><a href="{%url 'index'%}" class="active">Home</a></li>
+          <li><a href="{% url 'orderlist' %}" class="active">Cart&nbsp;&nbsp;
+              <div style="color: red;">
+                {{request.user | cart_item_count}}
+              </div>
+
+            </a></li>
+          {% if user.is_superuser %}
+          <li><a href="{%url 'add_product'%}" class="active">Add Product</a></li>
+          {% endif %}
+          <li><a href="#hero" class="active">Welcome {{user.username}}</a></li>
+          <a class="btn-getstarted" href="{% url 'user_logout' %}">Logout</a>
+
+
+
+          {% else %}
+          <a class="btn-getstarted" href="{% url 'user_login' %}">Login</a>
+          <a class="btn-getstarted" href="{% url 'user_register' %}">Register</a>
+          {% endif %}
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+
+      </nav>
+
+
+
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section dark-background">
+
+      <img src="{% static 'img/hero-bg.jpg' %}" alt="" data-aos="fade-in" class="">
+
+      <div class="container text-center" data-aos="fade-up" data-aos-delay="100">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <h2>Shop the Best Products</h2>
+            <p>Discover a wide range of quality products, carefully curated and delivered right to your doorstep.</p>
+
+            <a href="#clients" class="btn-get-started">Get Started</a>
+          </div>
+        </div>
+      </div>
+
+    </section><!-- /Hero Section -->
+
+    <!-- {% if messages %}
+    {% for message in messages %}
+
+    <h1 class="login-title text-success text-center">{{message}}{{message}}</h1>
+
+    {% endfor %}
+    {% endif %} -->
+
+    <!-- Clients Section -->
+    <section id="clients" class="clients section light-background">
+
+      <div class="container" data-aos="fade-up">
+
+        <div class="row gy-4">
+
+          <div class="col-xl-2 col-md-3 col-6 client-logo">
+            <img src="{% static 'img/clients/client-1.png' %}" class="img-fluid" alt="">
+          </div><!-- End Client Item -->
+
+          <div class="col-xl-2 col-md-3 col-6 client-logo">
+            <img src="{% static 'img/clients/client-2.png' %}" class="img-fluid" alt="">
+          </div><!-- End Client Item -->
+
+          <div class="col-xl-2 col-md-3 col-6 client-logo">
+            <img src="{% static 'img/clients/client-3.png' %}" class="img-fluid" alt="">
+          </div><!-- End Client Item -->
+
+          <div class="col-xl-2 col-md-3 col-6 client-logo">
+            <img src="{% static 'img/clients/client-4.png' %}" class="img-fluid" alt="">
+          </div><!-- End Client Item -->
+
+          <div class="col-xl-2 col-md-3 col-6 client-logo">
+            <img src="{% static 'img/clients/client-5.png' %}" class="img-fluid" alt="">
+          </div><!-- End Client Item -->
+
+          <div class="col-xl-2 col-md-3 col-6 client-logo">
+            <img src="{% static 'img/clients/client-6.png' %}" class="img-fluid" alt="">
+          </div><!-- End Client Item -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Clients Section -->
+
+    <section id="products" class="products">
+      =
+
+      <div class="container">
+        <div class="row">
+          {% for product in product_list %}
+          <div class="col-md-4"> <!-- Adjust column size as needed -->
+            <div class="card mt-3 mb-2">
+              <img src="{{ product.img.url }}" class="card-img-top" alt="{{ product.name }}">
+              <div class="card-body">
+                <h4 class="card-title text-center">{{ product.name }}</h4>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item text-center"><b>Category</b> : {{ product.category.category_name }}</li>
+                <li class="list-group-item text-center"><b>Price</b> : SEK {{ product.price }}</li>
+              </ul>
+              <div class="card-footer d-flex justify-content-center" style="background-color: white;">
+                <a href="{% url 'product_desc' product.pk %}" class="btn btn-dark">View More</a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        {% if product_list.has_other_pages %}
+        <nav aria-label="Page navigation" class="mt-4">
+          <ul class="pagination">
+            {% if product_list.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ product_list.previous_page_number }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+              <span class="page-link" aria-hidden="true">&laquo;</span>
+            </li>
+            {% endif %}
+
+            {% for num in product_list.paginator.page_range %}
+            {% if product_list.number == num %}
+            <li class="page-item active">
+              <span class="page-link">{{ num }}</span>
+            </li>
+            {% else %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+
+            {% if product_list.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ product_list.next_page_number }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+              <span class="page-link" aria-hidden="true">&raquo;</span>
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section about">
+      <div class="container">
+        <div class="row align-items-center">
+          <!-- Image Column -->
+          <div class="col-lg-6 text-center mb-4 mb-lg-0 order-lg-last">
+            <img src="{% static 'img/delivery.jpg' %}" class="img-fluid rounded shadow" alt="Food Delivery">
+          </div>
+          <!-- Content Column -->
+          <div class="col-lg-6 order-lg-first">
+            <h3 class="fw-bold">Delicious Food Delivered To Your Doorstep</h3>
+            <p class="mb-4">
+              TakeNOut brings your favorite restaurants right to your fingertips. Order from a wide selection of local
+              restaurants and enjoy quick, reliable delivery service.
+            </p>
+            <ul class="list-unstyled">
+              <li class="mb-3">
+                <h4 class="fw-semibold">Quick Delivery</h4>
+                <p>Get your food delivered within 30 minutes of ordering</p>
+              </li>
+              <li class="mb-3">
+                <h4 class="fw-semibold">Wide Selection</h4>
+                <p>Choose from hundreds of restaurants and thousands of menu items</p>
+              </li>
+              <li class="mb-3">
+                <h4 class="fw-semibold">Special Offers</h4>
+                <p>Regular discounts and promotional offers on your favorite meals</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Stats Section -->
+    <section id="stats" class="section stats section accent-background">
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-3 col-md-6">
+            <div class="stats-item text-center w-100 h-100">
+              <span data-purecounter-start="0" data-purecounter-end="10000" data-purecounter-duration="1"
+                class="purecounter"></span>
+              <p>Happy Customers</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="stats-item text-center w-100 h-100">
+              <span data-purecounter-start="0" data-purecounter-end="500" data-purecounter-duration="1"
+                class="purecounter"></span>
+              <p>Restaurant Partners</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="stats-item text-center w-100 h-100">
+              <span data-purecounter-start="0" data-purecounter-end="24" data-purecounter-duration="1"
+                class="purecounter"></span>
+              <p>Hours Support</p>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="stats-item text-center w-100 h-100">
+              <span data-purecounter-start="0" data-purecounter-end="50" data-purecounter-duration="1"
+                class="purecounter"></span>
+              <p>Cities Covered</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section id="why-us" class="section why-us section">
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-4" data-aos="fade-up">
+            <div class="why-box">
+              <h3>Why Choose TakeNOut?</h3>
+              <p>
+                We're committed to delivering not just food, but an exceptional dining experience right to your
+                doorstep. With our wide selection of restaurants, quick delivery, and outstanding customer service, we
+                make sure every meal is special.
+              </p>
+
+            </div>
+          </div>
+
+          <div class="col-lg-8 d-flex align-items-center">
+            <div class="row gy-4">
+              <div class="col-xl-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="icon-box d-flex flex-column justify-content-center align-items-center">
+                  <i class="bi bi-clock"></i>
+                  <h4>Fast Delivery</h4>
+                  <p>Quick and reliable delivery to your location</p>
+                </div>
+              </div>
+
+              <div class="col-xl-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="icon-box d-flex flex-column justify-content-center align-items-center">
+                  <i class="bi bi-gem"></i>
+                  <h4>Quality Food</h4>
+                  <p>Partner with top-rated restaurants for the best quality</p>
+                </div>
+              </div>
+
+              <div class="col-xl-4" data-aos="fade-up" data-aos-delay="400">
+                <div class="icon-box d-flex flex-column justify-content-center align-items-center">
+                  <i class="bi bi-shield-check"></i>
+                  <h4>Safe \& Hygienic</h4>
+                  <p>Ensuring food safety and hygiene in every order</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact section">
+      <div class="container">
+        <div class="section-title" data-aos="fade-up">
+          <h2>Contact</h2>
+          <p>Get in touch with us for any queries or support</p>
+        </div>
+
+        <div class="row gy-4">
+          <div class="col-lg-6">
+            <div class="info-item d-flex">
+              <i class="bi bi-geo-alt flex-shrink-0"></i>
+              <div>
+                <h4>Location:</h4>
+                <p>123 Delivery Street, Food City, FC 12345</p>
+              </div>
+            </div>
+
+            <div class="info-item d-flex">
+              <i class="bi bi-envelope flex-shrink-0"></i>
+              <div>
+                <h4>Email:</h4>
+                <p>support@takenout.com</p>
+              </div>
+            </div>
+
+            <div class="info-item d-flex">
+              <i class="bi bi-phone flex-shrink-0"></i>
+              <div>
+                <h4>Call:</h4>
+                <p>+1 (555) 123-4567</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <form action="#" method="post" class="php-email-form">
+              {% csrf_token %}
+              <div class="row gy-4">
+                <div class="col-md-6">
+                  <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+                </div>
+                <div class="col-md-6">
+                  <input type="email" class="form-control" name="email" placeholder="Your Email" required>
+                </div>
+                <div class="col-md-12">
+                  <input type="text" class="form-control" name="subject" placeholder="Subject" required>
+                </div>
+                <div class="col-md-12">
+                  <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
+                </div>
+                <div class="col-md-12 text-center">
+                  <button type="submit">Send Message</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light pt-5">
+      <div class="container footer-top">
+        <div class="row gy-4">
+
+          <!-- About Section -->
+          <div class="col-lg-5 col-md-12">
+            <a href="{% url 'index' %}" class="d-flex align-items-center mb-3 text-decoration-none text-light">
+              <span class="fs-4 fw-bold">TakeNOut</span>
+            </a>
+            <p>Fast, fresh food delivered to your doorstep. Connecting you with the best local restaurants for a quality
+              dining experience.</p>
+            <div class="d-flex mt-4">
+              <a href="#" class="text-light me-3"><i class="bi bi-facebook fs-4"></i></a>
+              <a href="#" class="text-light me-3"><i class="bi bi-instagram fs-4"></i></a>
+              <a href="#" class="text-light"><i class="bi bi-twitter fs-4"></i></a>
+            </div>
+          </div>
+
+          <!-- Quick Links -->
+          <div class="col-lg-2 col-6">
+            <h5 class="text-uppercase">Quick Links</h5>
+            <ul class="list-unstyled">
+              <li><a href="{% url 'index' %}" class="text-light text-decoration-none">Home</a></li>
+              <li><a href="#" class="text-light text-decoration-none">Menu</a></li>
+              <li><a href="#about" class="text-light text-decoration-none">About us</a></li>
+              <li><a href="#contact" class="text-light text-decoration-none">Contact</a></li>
+            </ul>
+          </div>
+
+          <!-- Our Services -->
+          <div class="col-lg-2 col-6">
+            <h5 class="text-uppercase">Our Services</h5>
+            <ul class="list-unstyled">
+              <li><a href="#" class="text-light text-decoration-none">Food Delivery</a></li>
+              <li><a href="#" class="text-light text-decoration-none">Catering</a></li>
+              <li><a href="#" class="text-light text-decoration-none">Corporate Orders</a></li>
+              <li><a href="#" class="text-light text-decoration-none">Bulk Orders</a></li>
+            </ul>
+          </div>
+
+          <!-- Contact Information -->
+          <div class="col-lg-3 col-md-12">
+            <h5 class="text-uppercase">Contact Us</h5>
+            <address class="text-light">
+              123 Delivery Street<br>
+              Food City, FC 12345<br>
+              United States<br><br>
+              <strong>Phone:</strong> +1 (555) 123-4567<br>
+              <strong>Email:</strong> support@takenout.com
+            </address>
+          </div>
+        </div>
+      </div>
+
+      <div class="container text-center mt-4 border-top pt-3">
+        <p class="mb-0">&copy; <strong>TakeNOut</strong> All Rights Reserved</p>
+      </div>
+    </footer>
+
+  </main>
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
+  <script src="{% static 'vendor/imagesloaded/imagesloaded.pkgd.min.js' %}"></script>
+  <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+
+  <!-- Main JS File -->
+  <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+{% load static %}
+{% load cart_template_tag %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Page</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <!-- Favicons -->
+    <link href="{% static 'img/favicon.png' %}" rel="icon">
+    <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+</head>
+
+<body>
+
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div
+            class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-end">
+
+            <a href="{%url 'index'%}" class="logo d-flex align-items-center me-auto">
+
+                <h1 class="sitename">TakeNOut</h1>
+            </a>
+
+            <nav id="navmenu" class="navmenu">
+                <ul>
+                    {% if user.is_authenticated %}
+                    <li><a href="{%url 'index'%}" class="active">Home</a></li>
+                    <li><a href="{% url 'orderlist' %}" class="active">Cart&nbsp;&nbsp;
+                            <div style="color: red;">
+                                {{request.user | cart_item_count}}
+                            </div>
+
+                        </a></li>
+                    {% if user.is_superuser %}
+                    <li><a href="{%url 'add_product'%}" class="active">Add Product</a></li>
+                    {% endif %}
+                    <li><a href="#hero" class="active">Welcome {{user.username}}</a></li>
+                    <a class="btn-getstarted" href="{% url 'user_logout' %}">Logout</a>
+
+
+
+                    {% else %}
+                    <a class="btn-getstarted" href="{% url 'user_login' %}">Login</a>
+                    <a class="btn-getstarted" href="{% url 'user_register' %}">Register</a>
+                    {% endif %}
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+
+            </nav>
+
+
+
+        </div>
+    </header>
+
+    <div class="container d-flex justify-content-center align-items-center mt-5" style="min-height: 100vh;">
+        <div class="card p-4" style="width: 100%; max-width: 400px;">
+            <h3 class="text-center mb-4">Register</h3>
+            {% if messages %}
+            {% for message in messages %}
+            <h3 class="login-title badge badge-danger">{{message}}</h3>
+            {% endfor %}
+            {% endif %}
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="username" class="sr-only">Username</label>
+                    <input type="text" name="username" id="username" class="form-control" placeholder="Username"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="sr-only">Email</label>
+                    <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="sr-only">Password</label>
+                    <input type="password" name="password" id="password" class="form-control" placeholder="Password"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm_password" class="sr-only">Confirm Password</label>
+                    <input type="password" name="confirm_password" id="confirm_password" class="form-control"
+                        placeholder="Confirm Password" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone_field" class="sr-only">Phone Number</label>
+                    <input type="text" name="phone_field" id="phone_field" class="form-control"
+                        placeholder="Phone Number" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+
+                <!-- Login Link -->
+                <p class="text-center mt-3">
+                    Already have an account? <a href="{% url 'user_login' %}" class="btn btn-link">Login</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies (Optional) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
